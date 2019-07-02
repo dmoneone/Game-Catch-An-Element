@@ -30,59 +30,123 @@
   display: table;
   clear: both; }
 
+body {
+  background-color: white;
+  background-image: linear-gradient(white 25%, transparent 25%), linear-gradient(90deg, white 25%, transparent 25%), linear-gradient(transparent 75%, #d4d3d8 75%), linear-gradient(90deg, transparent 75%, #eff0ea 75%), linear-gradient(#eff0ea 50%, transparent 50%), linear-gradient(90deg, #d4d3d8 50%, transparent 50%);
+  background-size: 20px 20px; }
+
 .game-main-wrapper {
   width: 100%;
   display: block;
-  border: 1px solid black;
   box-sizing: border-box;
-  height: 650px;
+  height: 600px;
   position: relative; }
   .game-main-wrapper .basket {
-    width: 100px;
-    height: 50px;
-    background: black;
+    width: 99px;
+    height: 97px;
+    background: url(../img/basket2.png);
     position: absolute;
-    bottom: 0;
+    bottom: -48px;
     left: 0;
     z-index: 1110; }
   .game-main-wrapper .start-game {
-    width: 100px;
-    height: 50px;
-    background: red;
+    width: 300px;
+    background: white;
+    height: 150px;
+    border: 2px solid black;
+    border-radius: 30px;
     position: absolute;
     left: 50%;
-    margin-left: -50px;
+    margin-left: -150px;
     top: 100px;
-    text-align: center; }
+    text-align: center;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all ease 0.3s;
+    cursor: pointer; }
+    .game-main-wrapper .start-game span {
+      font-size: 45px;
+      font-family: Verdana; }
+    .game-main-wrapper .start-game:hover {
+      width: 350px;
+      margin-left: -175px;
+      box-shadow: 5px 5px 7px #212121; }
 
 .elem {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   position: absolute;
   top: 0; }
 
-.circle {
-  background: red;
-  border-radius: 50%; }
+.ball_1 {
+  background: url(../img/iconfinder_Baseball_2138348.png); }
 
-.square {
-  background: yellow; }
+.ball_2 {
+  background: url(../img/iconfinder_Basketball_2138358.png); }
+
+.ball_3 {
+  background: url(../img/iconfinder_Fast_ball_1703907.png); }
+
+.ball_4 {
+  background: url(../img/iconfinder_football_416378.png); }
+
+.ball_5 {
+  background: url(../img/iconfinder_Luxury_Ball_1703900.png); }
+
+.ball_6 {
+  background: url(../img/iconfinder_Poke_Ball_1703896.png); }
 
 .life {
-  background: black;
+  background: url(../img/iconfinder_heart_299063.png);
   width: 20px;
   height: 20px; }
 
-.score {
-  position: absolute;
-  right: 0;
-  top: 0;
-  font-size: 50px; }
+.poison {
+  background: url(../img/iconfinder_039_040_poison_potion_arcanum_halloween_3792029.png);
+  width: 48px;
+  height: 48px; }
 
-.lives {
-  top: 0;
-  left: 0;
+.score-wrap {
   position: absolute;
-  font-size: 50px; }
+  right: 20px;
+  top: 20px;
+  font-size: 45px;
+  font-family: Verdana; }
+  .score-wrap span {
+    display: inline-block; }
+
+.lives-wrap {
+  top: 20px;
+  left: 20px;
+  position: absolute;
+  display: inline-block;
+  font-size: 45px;
+  font-family: Verdana; }
+  .lives-wrap img {
+    width: 40px;
+    vertical-align: baseline; }
+
+.game-over-wrap {
+  width: 300px;
+  height: 100px;
+  border: 1px solid black;
+  border-radius: 30px;
+  background: white;
+  position: absolute;
+  left: 50%;
+  margin-left: -150px;
+  top: 100px;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-items: center;
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */
