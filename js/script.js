@@ -1,6 +1,7 @@
-let elem_array = ['life'];
-let speed_array = [30,40,50];
+let elem_array = ['life','circle', 'square'];
+let speed_array = [20,30,40,50];
 let lives = 5;
+
 $(document).ready(function(){
     $('.start-game').on('click', function(){
        $('.start-game').hide(200); 
@@ -24,28 +25,36 @@ $(document).ready(function(){
        function addFallingElemToGameField(obj){
            obj.marginLeft = obj.marginLeft + "px";
            let rand_speed =  Math.floor(Math.random() * speed_array.length);
-           $('<div/>',{class: obj.class + " elem", id: obj.id}).css("margin-left", obj.marginLeft).appendTo($('.game-main-wrapper'));
+           $('<div/>',{class: obj.class, id: obj.id}).css("margin-left", obj.marginLeft).appendTo($('.game-main-wrapper'));
            let top_elem = 0;
-            setInterval(function(){
+           let moveDown = setInterval(function(){
                top_elem = top_elem + 4;
                $("#"+obj.id).css('margin-top', top_elem + "px");
-               
+               let elem =  $("#"+obj.id);
                if(top_elem == 600){ 
-                  top_elem = 0;
-                  let elem =  $("#"+obj.id);
+                  clearInterval(moveDown);
+                  $(elem).css('background','black');
                   let basket =  $('.basket');
                   let elemOffset = $(elem).offset();
                   let basketOffset = $('.basket').offset(); 
                   if((elemOffset.left + $(elem).width() >= basketOffset.left) && (elemOffset.left <= basketOffset.left + $(basket).width())){
                      score = score + 1;
                      $('.score').html(score);
-                     //if($(elem).attr('class') == 'life'){
-                         //alert('+1');
-                     //}
+                     $(elem).fadeOut("swing", null, 100, function(){
+						$(elem).remove();
+					 });
+                     if($(elem).attr('class') == 'life elem'){
+                         lives++;
+                         $('.lives').html(lives);
+                     }
+                     $(elem).delete();
                   }
                   else{
                       lives--;
-                      console.log(lives +" "+ obj.marginLeft);
+                      $(elem).css('background','black')
+                      //$(elem).hide("explode", {pieces: 9}, 300, function(){
+						//$(elem).remove();
+					  //});
                       $('.lives').html(lives);
                       if(lives == 0){
                           alert('Game Over');
