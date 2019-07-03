@@ -64,7 +64,6 @@ $(document).ready(function(){
             obj.top_elem = obj.top_elem + 5; 
             $("#" + obj.id).css('margin-top',  obj.top_elem + "px");
             let elem =  $("#" + obj.id);
-            console.log(elem);
             if(obj.top_elem == 550){ 
                 let basket =  $('.basket');
                 let elemOffset = $(elem).offset();
@@ -99,6 +98,7 @@ $(document).ready(function(){
                         if(lives == 0){
                             alert('Чистим');
                             clearInterval(create_interval);
+                            clearInterval(fallignDown_interval);
                             //clearInterval(fallignDown_interval);
                             alert('Game Over. ' + "Your Score Is " + score);
                             attempts.push(score);
@@ -107,6 +107,7 @@ $(document).ready(function(){
                             $('.replay').on('click', function(){
                                 alert('Чистим');
                                 clearInterval(create_interval);
+                                clearInterval(fallignDown_interval);
                                 alert('начинаем');
                                 create_interval = setInterval(createFallingElement, 2000);
                                 lives = 5;
