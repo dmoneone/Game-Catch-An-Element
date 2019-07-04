@@ -45,14 +45,15 @@ $(document).ready(function(){
     
     function createFallingElement(value){
            value = +value;
-           switch(value){
-               case 1:
-                value = speed_array_1;
-               case 2:
-                value = speed_array_2;
-               case 3:
-                value = speed_array_3;
-           } 
+           if(value == 1){
+               value = speed_array_1;
+           }
+           if(value == 2){
+               value = speed_array_2;
+           }
+           if(value == 3){
+               value = speed_array_3;
+           }
            let rand_speed =  Math.floor(Math.random() * value.length);
            let randElem = Math.floor(Math.random() * elem_array.length);
            let randLocation = Math.floor(Math.random() * 1000);
