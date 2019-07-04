@@ -1,14 +1,17 @@
 let elem_array = ['life','poison','ball_1','ball_2','ball_3','ball_4','ball_5','ball_6'];
-let speed_array_1 = [40,50];
-let speed_array_2 = [15,20,30];
-let speed_array_3 = [5,10];
+let speed_array_1 = [50,60,70,80];
+let speed_array_2 = [20,30,40,50];
+let speed_array_3 = [5,10,15];
 let lives = 5;
 let score = 0;
 let attempts = [];
 let saved_attempts = localStorage.getItem('attempts');
-if(saved_attempts != undefined){
-}
 $(document).ready(function(){
+    $('.game-over-wrap').hide();
+    if(saved_attempts != undefined){
+        attempts = JSON.parse(saved_attempts);
+        getRecord(attempts);
+    }
     let create_interval;
     let fallignDown_interval;
     $('.game-main-wrapper').on('mousemove', function(event){
@@ -20,10 +23,6 @@ $(document).ready(function(){
     }); 
     
     $('.replay').on('click', function(){
-            alert('clean')
-			clearInterval(create_interval);
-            clearInterval(fallignDown_interval);
-            alert('begin')
             create_interval = setInterval(createFallingElement, 2000);
             lives = 5;
             score = 0;
@@ -34,20 +33,27 @@ $(document).ready(function(){
     
     $('.start-game').on('click', function(){
        $('.start-game').hide(200);
-       create_interval = setInterval(createFallingElement, 2000);
-        
-        
-       /*let getLevel = prompt('Выберите уровень сложности. Если Вы хотите выбрать легкий введите - 1, средний - 2, сложный - 3');
+       let getLevel = prompt('Выберите уровень сложности. Если Вы хотите выбрать легкий введите - 1, средний - 2, сложный - 3');
        if(getLevel == 1 || getLevel == 2 || getLevel == 3 ){
-           create_interval = setInterval(createFallingElement, 1000);
+           create_interval = setInterval(function(){createFallingElement(getLevel)},2000);
        }
        else{
           alert('Введите 1,2 или 3!');
           location.reload();
-       }*/
+       }
     });
     
-    function createFallingElement(){
+    function createFallingElement(value){
+           value = +value;
+           switch(value){
+               case 1:
+                value = speed_array_1;
+               case 2:
+                value = speed_array_2;
+               case 3:
+                value = speed_array_3;
+           } 
+           let rand_speed =  Math.floor(Math.random() * value.length);
            let randElem = Math.floor(Math.random() * elem_array.length);
            let randLocation = Math.floor(Math.random() * 1000);
            let falling_elem = {
@@ -56,26 +62,14 @@ $(document).ready(function(){
                marginLeft: randLocation,
                catched: false,
                top_elem: 0,
-               clearFalling: fallignDown_interval = setInterval(function(){setMoveDownToElement(falling_elem)},50)
+               clearFalling: fallignDown_interval = setInterval(function(){setMoveDownToElement(falling_elem)}, value[rand_speed])
            }
            addFallingElemToGameField(falling_elem);
-           //alert(falling_elem.id);
      }
 
-     function addFallingElemToGameField(obj, speed_array){
-           /*if(getLevel == 1){
-              speed_array = speed_array_1;
-           }
-           if(getLevel == 2){
-              speed_array = speed_array_2;
-           }
-           if(getLevel == 3){
-              speed_array = speed_array_3;
-           }*/
+     function addFallingElemToGameField(obj){
            obj.marginLeft = obj.marginLeft + "px";
-           //let rand_speed =  Math.floor(Math.random() * speed_array.length);
-           $('<div/>',{class: obj.class, id: obj.id}).css("margin-left", obj.marginLeft).appendTo($('.game-main-wrapper'));
-           
+           $('<div/>',{class: obj.class, id: obj.id}).css("margin-left", obj.marginLeft).appendTo($('.game-main-wrapper'));        
      }
     
      function setMoveDownToElement(obj){
@@ -83,8 +77,8 @@ $(document).ready(function(){
             $("#" + obj.id).css('margin-top',  obj.top_elem + "px");
             let elem =  $("#" + obj.id);
             if(obj.top_elem == 550){ 
-               // obj.clearFalling = clearInterval(fallignDown_interval);
-                console.log(obj.clearFalling);
+                obj.clearFalling = clearInterval(obj.clearFalling);
+                delete obj;
                 let basket =  $('.basket');
                 let elemOffset = $(elem).offset();
                 let basketOffset = $('.basket').offset(); 
@@ -96,10 +90,14 @@ $(document).ready(function(){
                     if($(elem).attr('class') == 'poison elem'){
                         lives--;
                         $('.lives').html(lives);
+                        if(lives == 0){
+                            clearInterval(create_interval);
+                            attempts.push(score);
+                            localStorage.setItem('attempts', JSON.stringify(attempts));
+                            $('.game-over-wrap').show();
+                        }
                     }
-                     
-                    if($(elem).attr('class') == 'life elem' || $(elem).attr('class') == 'poison elem'){
-                    }
+                    if($(elem).attr('class') == 'life elem' || $(elem).attr('class') == 'poison elem'){}
                     else{
                         obj.catched = true;
                         score = score + 1;
@@ -109,27 +107,29 @@ $(document).ready(function(){
                     $(elem).remove();
                 }
                 else{
-                    if($(elem).attr('class') == 'life elem'|| $(elem).attr('class') == 'poison elem'){
-                         
-                    }
+                    if($(elem).attr('class') == 'life elem'|| $(elem).attr('class') == 'poison elem'){}
                     else{
                         lives--;
                         $('.lives').html(lives);
                         if(lives == 0){
-                            alert('Чистим');
                             clearInterval(create_interval);
-                            clearInterval(fallignDown_interval);
-                            alert('Game Over. ' + "Your Score Is " + score);
                             attempts.push(score);
                             localStorage.setItem('attempts', JSON.stringify(attempts));
+                            getRecord(attempts);
                             $('.game-over-wrap').show();
                         }
                     }
                     
-                    /*$(elem).hide( 2000, function(){
-                        $(elem).remove();
-                    })*/
+                    $(elem).hide('explode',2000, function(){
+                        (elem).remove();
+                    })
                 }  
-            }       
-     }      
+            }  
+            
+     }
+    
+    function getRecord(arr){
+        let record = Math.max.apply(Math, arr);
+        $('.record').html(record);
+    }
 });
