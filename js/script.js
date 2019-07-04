@@ -29,6 +29,7 @@ $(document).ready(function(){
             $('.lives').html(lives);
             $('.score').html(score);
             $('.game-over-wrap').hide('explode', 200);
+            $('.lives-wrap').show(100);
     });
     
     $('.start-game').on('click', function(){  
@@ -40,7 +41,7 @@ $(document).ready(function(){
           alert('Введите 1,2 или 3!');
           location.reload();
        }
-       $('.start-game').hide(1000);
+       $('.start-game').hide(200);
     });
     
     function createFallingElement(value){
@@ -92,10 +93,11 @@ $(document).ready(function(){
                         lives--;
                         $('.lives').html(lives);
                         if(lives == 0){
+                            $('.lives-wrap').hide(100);
                             clearInterval(create_interval);
                             attempts.push(score);
                             localStorage.setItem('attempts', JSON.stringify(attempts));
-                            $('.game-over-wrap').show();
+                            $('.game-over-wrap').show('explode', 1000);
                         }
                     }
                     if($(elem).attr('class') == 'life elem' || $(elem).attr('class') == 'poison elem'){}
@@ -113,12 +115,14 @@ $(document).ready(function(){
                         lives--;
                         $('.lives').html(lives);
                         if(lives == 0){
+                            $('.lives-wrap').hide(100);
                             clearInterval(create_interval);
                             attempts.push(score);
                             localStorage.setItem('attempts', JSON.stringify(attempts));
                             getRecord(attempts);
                             $('.game-over-wrap').show('explode', 1000);
                         }
+
                     }
                     
                     $(elem).hide('explode',2000, function(){
