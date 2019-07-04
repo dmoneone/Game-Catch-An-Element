@@ -12,8 +12,25 @@ $(document).ready(function(){
     let create_interval;
     let fallignDown_interval;
     $('.game-main-wrapper').on('mousemove', function(event){
-           $('.basket').css('left', event.clientX + "px");
-    });  
+           let position = event.clientX;
+           if(position + $('.basket').width() > $('.game-main-wrapper').width()){
+				position = $('.game-main-wrapper').width - $('.basket').width();
+           }
+           $('.basket').css('left', position + "px");
+    }); 
+    
+    $('.replay').on('click', function(){
+            alert('clean')
+			clearInterval(create_interval);
+            clearInterval(fallignDown_interval);
+            alert('begin')
+            create_interval = setInterval(createFallingElement, 2000);
+            lives = 5;
+            score = 0;
+            $('.lives').html(lives);
+            $('.score').html(score);
+            $('.game-over-wrap').hide();
+    });
     $('.start-game').on('click', function(){
        $('.start-game').hide(200);
        create_interval = setInterval(createFallingElement, 2000);
@@ -40,7 +57,7 @@ $(document).ready(function(){
                top_elem: 0
            }
            addFallingElemToGameField(falling_elem);
-           setInterval(function(){setMoveDownToElement(falling_elem)},5);
+           fallignDown_interval = setInterval(function(){setMoveDownToElement(falling_elem)},50);
            //alert(falling_elem.id);
      }
 
@@ -98,27 +115,13 @@ $(document).ready(function(){
                         if(lives == 0){
                             alert('Чистим');
                             clearInterval(create_interval);
-                            clearInterval(fallignDown_interval);
-                            //clearInterval(fallignDown_interval);
                             alert('Game Over. ' + "Your Score Is " + score);
                             attempts.push(score);
                             localStorage.setItem('attempts', JSON.stringify(attempts));
                             $('.game-over-wrap').show();
-                            $('.replay').on('click', function(){
-                                alert('Чистим');
-                                clearInterval(create_interval);
-                                clearInterval(fallignDown_interval);
-                                alert('начинаем');
-                                create_interval = setInterval(createFallingElement, 2000);
-                                lives = 5;
-                                score = 0;
-                                $('.lives').html(lives);
-                                $('.score').html(score);
-                                $('.game-over-wrap').hide();
-                            });
                         }
                     }
-                    $(elem).hide(2000, function(){
+                    $(elem).hide( 2000, function(){
                         $(elem).remove();
                     })
                 }            
