@@ -71,11 +71,14 @@ body {
     cursor: pointer; }
     .game-main-wrapper .start-game span {
       font-size: 45px;
-      font-family: Verdana; }
+      font-family: Verdana;
+      transition: all ease 0.3s; }
     .game-main-wrapper .start-game:hover {
       width: 350px;
       margin-left: -175px;
       box-shadow: 5px 5px 7px #212121; }
+      .game-main-wrapper .start-game:hover span {
+        letter-spacing: 8px; }
 
 .elem {
   width: 48px;

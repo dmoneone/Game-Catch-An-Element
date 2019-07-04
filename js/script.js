@@ -31,6 +31,7 @@ $(document).ready(function(){
             $('.score').html(score);
             $('.game-over-wrap').hide();
     });
+    
     $('.start-game').on('click', function(){
        $('.start-game').hide(200);
        create_interval = setInterval(createFallingElement, 2000);
@@ -54,10 +55,10 @@ $(document).ready(function(){
                id: `f${(+new Date).toString(16)}`,
                marginLeft: randLocation,
                catched: false,
-               top_elem: 0
+               top_elem: 0,
+               clearFalling: fallignDown_interval = setInterval(function(){setMoveDownToElement(falling_elem)},50)
            }
            addFallingElemToGameField(falling_elem);
-           fallignDown_interval = setInterval(function(){setMoveDownToElement(falling_elem)},50);
            //alert(falling_elem.id);
      }
 
@@ -74,14 +75,16 @@ $(document).ready(function(){
            obj.marginLeft = obj.marginLeft + "px";
            //let rand_speed =  Math.floor(Math.random() * speed_array.length);
            $('<div/>',{class: obj.class, id: obj.id}).css("margin-left", obj.marginLeft).appendTo($('.game-main-wrapper'));
-           //fallignDown_interval = setInterval()
            
      }
+    
      function setMoveDownToElement(obj){
             obj.top_elem = obj.top_elem + 5; 
             $("#" + obj.id).css('margin-top',  obj.top_elem + "px");
             let elem =  $("#" + obj.id);
             if(obj.top_elem == 550){ 
+               // obj.clearFalling = clearInterval(fallignDown_interval);
+                console.log(obj.clearFalling);
                 let basket =  $('.basket');
                 let elemOffset = $(elem).offset();
                 let basketOffset = $('.basket').offset(); 
@@ -115,16 +118,18 @@ $(document).ready(function(){
                         if(lives == 0){
                             alert('Чистим');
                             clearInterval(create_interval);
+                            clearInterval(fallignDown_interval);
                             alert('Game Over. ' + "Your Score Is " + score);
                             attempts.push(score);
                             localStorage.setItem('attempts', JSON.stringify(attempts));
                             $('.game-over-wrap').show();
                         }
                     }
-                    $(elem).hide( 2000, function(){
+                    
+                    /*$(elem).hide( 2000, function(){
                         $(elem).remove();
-                    })
-                }            
+                    })*/
+                }  
             }       
      }      
 });
