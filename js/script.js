@@ -28,11 +28,10 @@ $(document).ready(function(){
             score = 0;
             $('.lives').html(lives);
             $('.score').html(score);
-            $('.game-over-wrap').hide();
+            $('.game-over-wrap').hide('explode', 200);
     });
     
-    $('.start-game').on('click', function(){
-       $('.start-game').hide(200);
+    $('.start-game').on('click', function(){  
        let getLevel = prompt('Выберите уровень сложности. Если Вы хотите выбрать легкий введите - 1, средний - 2, сложный - 3');
        if(getLevel == 1 || getLevel == 2 || getLevel == 3 ){
            create_interval = setInterval(function(){createFallingElement(getLevel)},2000);
@@ -41,6 +40,7 @@ $(document).ready(function(){
           alert('Введите 1,2 или 3!');
           location.reload();
        }
+       $('.start-game').hide(1000);
     });
     
     function createFallingElement(value){
@@ -117,7 +117,7 @@ $(document).ready(function(){
                             attempts.push(score);
                             localStorage.setItem('attempts', JSON.stringify(attempts));
                             getRecord(attempts);
-                            $('.game-over-wrap').show();
+                            $('.game-over-wrap').show('explode', 1000);
                         }
                     }
                     
